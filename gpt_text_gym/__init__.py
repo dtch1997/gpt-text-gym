@@ -1,7 +1,4 @@
 """
 GPT for text-based Gym environments
 """
-from pathlib import Path
-
-ROOT_DIR: Path = Path(__file__).parent.parent.absolute()
-__version__ = "0.0.1"
+from gpt_text_gym.config import ROOT_DIR, __version__
