@@ -3,3 +3,4 @@ python-dotenv
 openai
 rootpath
 minigrid
+ml_collections

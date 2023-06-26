@@ -4,8 +4,21 @@ import gymnasium as gym
 from gpt_text_gym.envs.minigrid_wrapper import MinigridTextEnvWrapper
 from gpt_text_gym.gpt import GPTChatCompleter, Message, default_system_message
 
-if __name__ == "__main__":
-    env = gym.make("MiniGrid-BlockedUnlockPickup-v0", render_mode=None)
+from absl import app
+from absl import flags
+from ml_collections import config_flags
+
+_CONFIG = config_flags.DEFINE_config_file("config", None)
+flags.mark_flag_as_required("config")
+
+
+def get_config():
+    return _CONFIG.value
+
+
+def main(argv):
+    config = get_config()
+    env = gym.make(config.env_id, render_mode=None)
     wrapper = MinigridTextEnvWrapper()
 
     obs, _ = env.reset()
@@ -18,3 +31,7 @@ if __name__ == "__main__":
 
     print(prompt)
     print(reply)
+
+
+if __name__ == "__main__":
+    app.run(main)

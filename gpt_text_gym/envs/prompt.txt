@@ -1,0 +1,9 @@
+
+Define intermediate states in terms of the following functions. 
+
+def agent_is_at(coordinate: Tuple[int, int]): -> bool
+def agent_is_facing(direction: str): -> bool
+def is_next_to(obj1: str, obj2: str): -> bool
+def agent_is_holding(obj: str): -> bool
+def agent_is_not_holding(): -> bool
+def is_open(obj: str): -> bool

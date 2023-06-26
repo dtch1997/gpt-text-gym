@@ -1,7 +1,7 @@
 import abc
 import gymnasium as gym
 
-from gpt_text_gym.gpt import Message
+from gpt_text_gym.gpt.chat_completer import Message
 from typing import Any
 
 
