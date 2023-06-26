@@ -34,10 +34,21 @@ def make_minigrid_description() -> str:
 
         The possible objects are:
         {", ".join(objects)}
+
+        The possible actions are:
+        {", ".join([action.name for action in Actions])}
+        """,
+        8,
+    )
+
+
+def make_env_description(env, obs) -> str:
+    return remove_leading_whitespace(
         """
-        + """
-        A grid cell is represented by 2-character string, the first one for
+        The environment state is represented by a grid of size {2 * env.width}x{env.height}.
+        Eacg grid cell is described by a 2-character string, the first one for
         the object and the second one for the color.
+        An empty grid cell is represented by the string "  ".
 
         # Map of object types to short string
         OBJECT_TO_STR = {
@@ -64,30 +75,8 @@ def make_minigrid_description() -> str:
 
         # Map agent's direction to short string
         AGENT_DIR_TO_STR = {0: ">", 1: "V", 2: "<", 3: "^"}
-
-        # Enumeration of possible actions
-        class Actions(IntEnum):
-            # Turn left, turn right, move forward
-            left = 0
-            right = 1
-            forward = 2
-            # Pick up an object
-            pickup = 3
-            # Drop an object
-            drop = 4
-            # Toggle/activate an object
-            toggle = 5
-
-            # Done completing task
-            done = 6
-        """,
-        8,
-    )
-
-
-def make_env_description(env, obs) -> str:
-    return remove_leading_whitespace(
-        f"""
+    """
+        + f"""
         The environment state is:
         {str(env.unwrapped)}
 
@@ -115,15 +104,14 @@ def make_rules() -> str:
     )
 
 
+# TODO: Make prompt easily configurable
 def make_prompt():
     return remove_leading_whitespace(
         """
-        1. What is the mission?
-        2. Can you walk through walls?
-        3. Are you in the same room as the goal object?
-        4. How can you get to the goal object?
-        5. How do you get to the goal object if you are blocked by a locked door and walls?
-    """
+        Think about it carefully. What overall plan should you follow to complete the mission?
+        The steps of the plan should be simple and easy to follow.
+        You should not describe the plan in too much detail.
+        """
     )
 
 

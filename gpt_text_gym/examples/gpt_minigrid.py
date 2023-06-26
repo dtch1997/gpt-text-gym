@@ -24,7 +24,9 @@ def main(argv):
     obs, _ = env.reset()
     prompt = wrapper.generate_message(env, obs)
 
-    chatbot = GPTChatCompleter()
+    chatbot = GPTChatCompleter(
+        model=config.gpt.model,
+    )
     chatbot.add_message(default_system_message())
     chatbot.add_message(prompt)
     reply = chatbot.generate_chat_completion()

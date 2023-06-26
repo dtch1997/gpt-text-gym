@@ -3,6 +3,7 @@
 import openai
 import dotenv
 
+from ml_collections import config_dict
 from dataclasses import dataclass
 from gpt_text_gym import ROOT_DIR
 from typing import List, NewType, Dict, Optional
@@ -41,7 +42,7 @@ def openai_chat_completion_create(
 class GPTChatCompleter:
     def __init__(
         self,
-        model: str = "gpt-3.5-turbo",
+        model: str = "gpt-4",
         temperature: float = 0.0,
         max_tokens: Optional[int] = None,
         n: int = 1,
