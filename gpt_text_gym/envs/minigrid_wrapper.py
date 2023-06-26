@@ -1,12 +1,39 @@
 import minigrid
 import gymnasium as gym
 
+from dataclasses import dataclass
 from minigrid.core.actions import Actions
 from minigrid.core.constants import OBJECT_TO_IDX, COLOR_TO_IDX
 from gpt_text_gym.envs.base_wrapper import BaseTextEnvWrapper
 from gpt_text_gym.gpt import Message
 from gpt_text_gym.gpt.utils import remove_leading_whitespace
 from typing import Any
+from collections.abc import Sequence
+
+
+@dataclass
+class Grid:
+    rows: int
+    cols: int
+    cells: Sequence[Sequence[str]]
+
+    @staticmethod
+    def from_string(string: str):
+        lines = string.split("\n")
+        rows = len(lines)
+        cols = len(lines[0]) // 2
+        cells = []
+        for line in lines:
+            _cells = []
+            for pos in range(cols):
+                _cells.append(line[2 * pos : 2 * pos + 2])
+            # _cells = tuple(_cells)
+            cells.append(_cells)
+        # cells = tuple(cells)
+        return Grid(rows, cols, cells)
+
+    def __str__(self):
+        return "\n".join(["".join(row) for row in self.cells])
 
 
 class MinigridTextEnvWrapper(BaseTextEnvWrapper):

@@ -1,0 +1,14 @@
+
+
+def exists_obj(obj: str, col: str) -> bool
+    """ 
+    Checks whether there is an object of the given name and color in the environment.
+    """
+
+def get_position(obj: str, col: str) -> Tuple[int, int]
+    """
+    If there is an object of given name and color in the environment, return its (x,y) coordinate.
+    Otherwise, return (-1, -1)
+    """
+
+def get_position()
