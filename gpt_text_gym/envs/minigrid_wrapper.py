@@ -9,11 +9,11 @@ from typing import Any
 
 
 class MinigridTextEnvWrapper(BaseTextEnvWrapper):
-    def generate_message(env: gym.Env, obs: Any) -> Message:
+    def generate_message(self, env: gym.Env, obs: Any) -> Message:
         """Describe the environment and observation as a message"""
-        return Message(role="user", content=make_prompt(env, obs))
+        return Message(role="user", content=make_message(env, obs))
 
-    def generate_action(env: gym.Env, message: Message) -> Any:
+    def generate_action(self, env: gym.Env, message: Message) -> Any:
         """Generate an action from a message"""
         return Actions[message.content]
 
@@ -24,6 +24,7 @@ def make_minigrid_description() -> str:
 
     return (
         f"""
+You are an agent in a gridworld.
 The environment is a gridworld with a 2D view from above. 
 It contains a single agent and a number of objects.
 
@@ -42,6 +43,7 @@ OBJECT_TO_STR = {
     "wall": "W",
     "floor": "F",
     "door": "D",
+    "locked_door": "L",
     "key": "K",
     "ball": "A",
     "box": "B",
@@ -100,19 +102,28 @@ The rules of the environment are:
 4. You can move forward, turn left, or turn right.
 5. You can only pick up an object if you are not holding anything.
 6. When you drop an object, it will be placed on the grid cell you are standing on.
+7. You cannot walk through walls.
+8. You cannot walk through locked doors.
+9. You can unlock a locked door with the correct key.
 """
 
 
-def make_prompt(env, obs):
-    return f"""
-You are an agent in a gridworld.
+def make_prompt():
+    return """
+1. What is the mission?
+2. Can you walk through walls?
+3. Are you in the same room as the goal object?
+4. How can you get to the goal object?
+5. How do you get to the goal object if you are blocked by a locked door and walls?
+"""
 
+
+def make_message(env, obs):
+    return f"""
 {make_minigrid_description()}
 {make_env_description(env, obs)}
-
-To solve the environment, you first decide to break down the 
-high-level mission into a sequence of intermediate goal states. 
-Thinking step by step, the goal states are: 
+{make_rules()}
+{make_prompt()}
     """
 
 

@@ -26,6 +26,10 @@ class Message:
         return f"{self.role}: {self.content}"
 
 
+def default_system_message():
+    return Message(role="system", content="You are a helpful assistant.")
+
+
 def openai_chat_completion_create(
     model: str,
     messages: List[RawMessage],
