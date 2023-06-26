@@ -3,19 +3,32 @@
 import openai
 import dotenv
 
+from dataclasses import dataclass
 from gpt_text_gym import ROOT_DIR
 from typing import List, NewType, Dict, Optional
 
-Message = NewType("Message", Dict[str, str])
+RawMessage = NewType("Message", Dict[str, str])
 
 
-def pretty_print_message(message: Message):
-    print(f"{message['role']}: {message['content']}")
+@dataclass
+class Message:
+    role: str
+    content: str
+
+    @staticmethod
+    def from_dict(raw_message: RawMessage) -> "Message":
+        return Message(role=raw_message["role"], content=raw_message["content"])
+
+    def to_dict(self) -> RawMessage:
+        return RawMessage({"role": self.role, "content": self.content})
+
+    def __str__(self):
+        return f"{self.role}: {self.content}"
 
 
 def openai_chat_completion_create(
     model: str,
-    messages: List[Message],
+    messages: List[RawMessage],
     n: int,
     temperature: float,
     max_tokens: Optional[int],
@@ -44,7 +57,8 @@ class GPTChatCompleter:
     def clear(self):
         self.chat_history = []
 
-    def generate_chat_completion(self, messages: List[Message], **kwargs):
+    def generate_chat_completion(self, **kwargs):
+        messages = [message.to_dict() for message in self.chat_history]
         response = openai_chat_completion_create(
             model=self.model,
             messages=messages,
@@ -55,7 +69,7 @@ class GPTChatCompleter:
         )
 
         choice = response["choices"][0]
-        msg: Message = choice["message"]
+        msg: Message = Message.from_dict(choice["message"])
         return msg
 
     def add_message(self, message: Message):
@@ -72,7 +86,9 @@ if __name__ == "__main__":
             "content": "Translate the following English text to French: 'Hello, how are you?'",
         },
     ]
-    reply = chatbot.generate_chat_completion(messages)
+    messages = [Message.from_dict(message) for message in messages]
     for message in messages:
-        pretty_print_message(message)
-    pretty_print_message(reply)
+        print(message)
+        chatbot.add_message(message)
+    reply = chatbot.generate_chat_completion(messages)
+    print(reply)
