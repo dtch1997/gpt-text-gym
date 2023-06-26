@@ -10,13 +10,27 @@ from typing import Any
 
 
 class MinigridTextEnvWrapper(BaseTextEnvWrapper):
+    def __init__(self):
+        self._prompt = ""
+
     def generate_message(self, env: gym.Env, obs: Any) -> Message:
         """Describe the environment and observation as a message"""
-        return Message(role="user", content=make_message(env, obs))
+        return Message(role="user", content=self.make_message(env, obs))
 
     def generate_action(self, env: gym.Env, message: Message) -> Any:
         """Generate an action from a message"""
         return Actions[message.content]
+
+    @property
+    def prompt(self):
+        return self._prompt
+
+    @prompt.setter
+    def prompt(self, prompt):
+        self._prompt = prompt
+
+    def make_message(self, env, obs):
+        return make_message(env, obs, self.prompt)
 
 
 def make_minigrid_description() -> str:
@@ -115,12 +129,14 @@ def make_prompt():
     )
 
 
-def make_message(env, obs):
+def make_message(env, obs, prompt=""):
+    if prompt == "":
+        prompt = make_prompt()
     return f"""
         {make_minigrid_description()}
         {make_env_description(env, obs)}
         {make_rules()}
-        {make_prompt()}
+        {prompt}
     """
 
 
