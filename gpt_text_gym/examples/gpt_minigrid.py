@@ -23,6 +23,10 @@ def main(argv):
 
     obs, _ = env.reset()
     prompt = wrapper.generate_message(env, obs)
+    if config.help:
+        # Print the prompt and exit
+        print(prompt)
+        return
 
     chatbot = GPTChatCompleter(
         model=config.gpt.model,
