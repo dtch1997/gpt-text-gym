@@ -4,13 +4,32 @@ import openai
 import dotenv
 
 from gpt_text_gym import ROOT_DIR
-from typing import List, NewType, Dict
+from typing import List, NewType, Dict, Optional
 
 Message = NewType("Message", Dict[str, str])
 
 
 def pretty_print_message(message: Message):
     print(f"{message['role']}: {message['content']}")
+
+
+def openai_chat_completion_create(
+    model: str,
+    messages: List[Message],
+    n: int,
+    temperature: float,
+    max_tokens: Optional[int],
+    **kwargs,
+):
+    """Wrapper around OpenAI's ChatCompletion.create method."""
+    return openai.ChatCompletion.create(
+        model=model,
+        messages=messages,
+        n=n,
+        temperature=temperature,
+        max_tokens=max_tokens,
+        **kwargs,
+    )
 
 
 class GPTChatCompleter:
@@ -26,7 +45,7 @@ class GPTChatCompleter:
         self.chat_history = []
 
     def generate_chat_completion(self, messages: List[Message], **kwargs):
-        response = openai.ChatCompletion.create(
+        response = openai_chat_completion_create(
             model=self.model,
             messages=messages,
             n=self.n,
