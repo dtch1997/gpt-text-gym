@@ -7,3 +7,106 @@
 --extra-index-url https://pypi.ngc.nvidia.com
 --trusted-host pypi.ngc.nvidia.com
 
+aiohttp==3.8.4
+    # via openai
+aiosignal==1.3.1
+    # via aiohttp
+async-timeout==4.0.2
+    # via aiohttp
+attrs==23.1.0
+    # via aiohttp
+blessings==1.7
+    # via colour-runner
+cachetools==5.3.1
+    # via tox
+certifi==2023.5.7
+    # via requests
+chardet==5.1.0
+    # via tox
+charset-normalizer==3.1.0
+    # via
+    #   aiohttp
+    #   requests
+codecov==2.1.13
+    # via rootpath
+colorama==0.4.6
+    # via tox
+coloredlogs==15.0.1
+    # via rootpath
+colour-runner==0.1.1
+    # via rootpath
+coverage==7.2.7
+    # via
+    #   codecov
+    #   rootpath
+deepdiff==6.3.0
+    # via rootpath
+distlib==0.3.6
+    # via virtualenv
+filelock==3.12.2
+    # via
+    #   tox
+    #   virtualenv
+frozenlist==1.3.3
+    # via
+    #   aiohttp
+    #   aiosignal
+humanfriendly==10.0
+    # via coloredlogs
+idna==3.4
+    # via
+    #   requests
+    #   yarl
+multidict==6.0.4
+    # via
+    #   aiohttp
+    #   yarl
+openai==0.27.8
+    # via -r requirements/base.in
+ordered-set==4.1.0
+    # via deepdiff
+packaging==23.1
+    # via
+    #   pyproject-api
+    #   tox
+platformdirs==3.8.0
+    # via
+    #   tox
+    #   virtualenv
+pluggy==1.2.0
+    # via tox
+pygments==2.15.1
+    # via
+    #   colour-runner
+    #   rootpath
+pyproject-api==1.5.2
+    # via tox
+python-dotenv==1.0.0
+    # via -r requirements/base.in
+requests==2.31.0
+    # via
+    #   -r requirements/base.in
+    #   codecov
+    #   openai
+rootpath==0.1.1
+    # via -r requirements/base.in
+six==1.16.0
+    # via
+    #   blessings
+    #   rootpath
+termcolor==2.3.0
+    # via rootpath
+tomli==2.0.1
+    # via
+    #   pyproject-api
+    #   tox
+tox==4.6.3
+    # via rootpath
+tqdm==4.65.0
+    # via openai
+urllib3==2.0.3
+    # via requests
+virtualenv==20.23.1
+    # via tox
+yarl==1.9.2
+    # via aiohttp
