@@ -27,7 +27,7 @@ class TestGPTChatCompleter(unittest.TestCase):
         self.messages = [Message("system", "You are a helpful assistant.")]
         self.model = "gpt-3.5-turbo"
         self.n = 1
-        self.temperature = 1.0
+        self.temperature = 0.0
         self.max_tokens = None
         self.kwargs = {}
 

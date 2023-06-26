@@ -7,9 +7,7 @@ import gpt_text_gym
 
 
 def main():
-    print(
-        f"gpt_text_gym version: {gpt_text_gym.__version__}"
-    )
+    print(f"gpt_text_gym version: {gpt_text_gym.__version__}")
 
 
 if __name__ == "__main__":

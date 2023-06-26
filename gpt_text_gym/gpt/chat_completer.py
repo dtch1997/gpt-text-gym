@@ -6,24 +6,17 @@ import dotenv
 from dataclasses import dataclass
 from gpt_text_gym import ROOT_DIR
 from typing import List, NewType, Dict, Optional
+from gpt_text_gym.gpt.message import Message, RawMessage, default_system_message
+from gpt_text_gym.gpt.utils import remove_leading_whitespace
 
-RawMessage = NewType("Message", Dict[str, str])
 
-
-@dataclass
-class Message:
-    role: str
-    content: str
-
-    @staticmethod
-    def from_dict(raw_message: RawMessage) -> "Message":
-        return Message(role=raw_message["role"], content=raw_message["content"])
-
-    def to_dict(self) -> RawMessage:
-        return RawMessage({"role": self.role, "content": self.content})
-
-    def __str__(self):
-        return f"{self.role}: {self.content}"
+def get_chatgpt_system_message():
+    content = """
+        You are ChatGPT, a large language model trained by OpenAI, based on the GPT-4 architecture.
+        Knowledge cutoff: 2021-09
+        Current date: 2023-06-26
+    """
+    return Message(role="system", content=remove_leading_whitespace(content))
 
 
 def openai_chat_completion_create(
@@ -46,13 +39,19 @@ def openai_chat_completion_create(
 
 
 class GPTChatCompleter:
-    def __init__(self):
+    def __init__(
+        self,
+        model: str = "gpt-3.5-turbo",
+        temperature: float = 0.0,
+        max_tokens: Optional[int] = None,
+        n: int = 1,
+    ):
         openai.api_key = dotenv.get_key(ROOT_DIR / ".env", "API_KEY")
         self.chat_history: List[Message] = []
-        self.model = "gpt-3.5-turbo"
-        self.temperature = 1.0
-        self.max_tokens = None
-        self.n = 1
+        self.model = model
+        self.temperature = temperature
+        self.max_tokens = max_tokens
+        self.n = n
 
     def clear(self):
         self.chat_history = []
