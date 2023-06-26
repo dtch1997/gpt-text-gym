@@ -7,6 +7,16 @@ from dataclasses import dataclass
 from gpt_text_gym import ROOT_DIR
 from typing import List, NewType, Dict, Optional
 from gpt_text_gym.gpt.message import Message, RawMessage, default_system_message
+from gpt_text_gym.gpt.utils import remove_leading_whitespace
+
+
+def get_chatgpt_system_message():
+    content = """
+        You are ChatGPT, a large language model trained by OpenAI, based on the GPT-4 architecture.
+        Knowledge cutoff: 2021-09
+        Current date: 2023-06-26
+    """
+    return Message(role="system", content=remove_leading_whitespace(content))
 
 
 def openai_chat_completion_create(
