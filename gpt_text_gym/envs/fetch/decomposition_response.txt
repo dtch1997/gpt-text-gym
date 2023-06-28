@@ -1,0 +1,29 @@
+<goal name='Cube is at the target'>
+<goal name='Gripper is positioned above the cube'>
+<goal name='Gripper is aligned in the x direction with the cube' />
+<goal name='Gripper is aligned in the y direction with the cube' />
+<goal name='Gripper is elevated above the cube in the z direction' />
+</goal>
+<goal name='Gripper is closed around the cube'>
+<goal name='Gripper is positioned over the cube'>
+<goal name='Gripper is aligned in the x direction with the cube' />
+<goal name='Gripper is aligned in the y direction with the cube' />
+<goal name='Gripper is at the same height in the z direction as the cube' />
+</goal>
+<goal name='Gripper fingers are closed around the cube' />
+</goal>
+<goal name='Cube is lifted off the table'>
+<goal name='Gripper is closed around the cube' />
+<goal name='Gripper is elevated while holding the cube' />
+</goal>
+<goal name='Gripper is positioned over the target'>
+<goal name='Gripper is aligned in the x direction with the target' />
+<goal name='Gripper is aligned in the y direction with the target' />
+<goal name='Gripper is elevated above the target in the z direction' />
+</goal>
+<goal name='Cube is placed at the target'>
+<goal name='Gripper is positioned over the target' />
+<goal name='Gripper is at the same height in the z direction as the target' />
+<goal name='Gripper fingers are opened to release the cube' />
+</goal>
+</goal>
