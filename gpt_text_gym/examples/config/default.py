@@ -4,6 +4,7 @@ from ml_collections import config_dict
 def get_config() -> config_dict.ConfigDict:
     """Returns the default config"""
     config = config_dict.ConfigDict()
+    config.help: bool = False
 
     config.env_id: str = "MiniGrid-BlockedUnlockPickup-v0"
     config.gpt = config_dict.ConfigDict()

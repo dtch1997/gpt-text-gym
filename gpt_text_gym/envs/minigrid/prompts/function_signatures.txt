@@ -1,0 +1,22 @@
+
+
+def exists_obj(grid: Grid, obj: str, col: str) -> bool
+    """ 
+    Checks whether there is an object of the given name and color in the environment.
+    """
+
+def get_position(grid: Grid, obj: str, col: str) -> Tuple[int, int]
+    """
+    If there is an object of given name and color in the environment, return its (x,y) coordinate.
+    Otherwise, return (-1, -1)
+    """
+
+def get_agent_position(grid: Grid) -> Tuple[int, int]:
+    """
+    Return the position of the agent
+    """
+
+def get_agent_direction(grid: Grid) -> str:
+    """
+    Return the direction the agent is facing
+    """
