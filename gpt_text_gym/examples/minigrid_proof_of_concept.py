@@ -5,7 +5,7 @@ import gymnasium as gym
 import re
 import dotenv
 
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
 
 from minigrid.core.constants import COLOR_NAMES
 from minigrid.core.grid import Grid
@@ -400,7 +400,37 @@ Has the current goal been reached? Answer yes or no.
     return response.strip().lower()
 
 
+from minigrid.core.actions import Actions
+
+
+def key_handler(event, env) -> Optional[Actions]:
+    key: str = event.key
+    print("pressed", key)
+
+    if key == "escape":
+        env.close()
+        return
+    if key == "backspace":
+        env.reset()
+        return
+
+    key_to_action = {
+        "left": Actions.left,
+        "right": Actions.right,
+        "up": Actions.forward,
+        "space": Actions.toggle,
+        "pageup": Actions.pickup,
+        "pagedown": Actions.drop,
+        "tab": Actions.pickup,
+        "left shift": Actions.drop,
+        "enter": Actions.done,
+    }
+    return key_to_action.get(key)
+
+
 def main():
+    import pygame
+
     env = PutNearEnv(size=6, numObjs=2, max_steps=50, render_mode="human")
     obs, _ = env.reset()
     env.render()
@@ -410,19 +440,24 @@ def main():
     while True:
         # Step the agent
         # TODO: Implement CLI for manual control
-        action = env.action_space.sample()
-        obs, _, terminated, truncated, _ = env.step(action)
-        env.render()
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                event.key = pygame.key.name(int(event.key))
+                action = key_handler(event, env)
+                if action is None:
+                    continue
+                obs, _, terminated, truncated, _ = env.step(action)
+                env.render()
 
-        # Evaluate the agent
-        evaluation = evaluation_agent(env, obs, current_goal)
-        if evaluation == "yes":
-            previous_goal = current_goal
-            current_goal = planning_agent(env, obs, previous_goal)
-        elif evaluation == "no":
-            pass
-        else:
-            raise ValueError(f"Invalid evaluation: {evaluation}")
+                # Evaluate the agent
+                evaluation = evaluation_agent(env, obs, current_goal)
+                if evaluation == "yes":
+                    previous_goal = current_goal
+                    current_goal = planning_agent(env, obs, previous_goal)
+                elif evaluation == "no":
+                    pass
+                else:
+                    raise ValueError(f"Invalid evaluation: {evaluation}")
 
 
 if __name__ == "__main__":
