@@ -348,6 +348,13 @@ def get_objects(env: gym.Env) -> List[str]:
     return objects
 
 
+def get_objects_in_view(obs: Dict) -> List[str]:
+    """
+    Get objects in the agent's field of view.
+    """
+    pass
+
+
 def get_inventory(env: gym.Env) -> str:
     object = env.unwrapped.carrying
     if object is None:
@@ -360,9 +367,11 @@ def describe_environment(env: gym.Env, obs: Dict) -> str:
     objects = get_objects(env)
     inventory = get_inventory(env)
 
+    # TODO: Only get visible objects
     env_description = f"""
 You are in a room. 
 You see: {', '.join(objects)}.
+You are facing: {obs["direction"]}.
 You are currently holding: {inventory}.
 """
     return env_description
@@ -428,7 +437,7 @@ def key_handler(event, env) -> Optional[Actions]:
     return key_to_action.get(key)
 
 
-def main():
+def manual_control():
     import pygame
 
     env = PutNearEnv(size=6, numObjs=2, max_steps=50, render_mode="human")
@@ -460,5 +469,29 @@ def main():
                     raise ValueError(f"Invalid evaluation: {evaluation}")
 
 
+def main():
+    env = PutNearEnv(size=6, numObjs=2, max_steps=50, render_mode="human")
+    obs, _ = env.reset()
+    env.render()
+    previous_goal = ""
+    current_goal = planning_agent(env, obs, previous_goal)
+
+    while True:
+        # Step the agent
+        action = env.action_space.sample()
+        obs, _, terminated, truncated, _ = env.step(action)
+        env.render()
+
+        # Evaluate the agent
+        evaluation = evaluation_agent(env, obs, current_goal)
+        if evaluation == "yes":
+            previous_goal = current_goal
+            current_goal = planning_agent(env, obs, previous_goal)
+        elif evaluation == "no":
+            pass
+        else:
+            raise ValueError(f"Invalid evaluation: {evaluation}")
+
+
 if __name__ == "__main__":
-    main()
+    manual_control()
