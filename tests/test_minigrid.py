@@ -1,4 +1,4 @@
-from gpt_text_gym.envs.minigrid_wrapper import Grid
+from gpt_text_gym.envs.minigrid.minigrid_wrapper import Grid
 
 
 def test_simple_grid():
