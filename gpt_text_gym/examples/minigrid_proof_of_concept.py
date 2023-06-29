@@ -4,6 +4,7 @@ import minigrid  # noqa
 import gymnasium as gym
 import re
 import dotenv
+import sympy
 
 from typing import Dict, List, Tuple, Optional
 
@@ -393,19 +394,89 @@ Describe the next goal in one sentence. Be concise.
     return response.strip().lower()
 
 
-def evaluation_agent(env, obs, current_goal: str):
-    prompt = f"""
-You are controlling a simulated agent to complete tasks. 
-The overall goal is: {obs["mission"]}.
-The current goal is: {current_goal}. 
-        
-{describe_environment(env, obs)}
+def evaluation_agent(env, obs, current_goal: str, additional_context: str = ""):
+    prompt = (
+        """
+Answer the question. 
 
-Has the current goal been reached? Answer yes or no.
+Rules:
+1. If you are unsure of the answer, say "need more information". 
+2. Do not say "yes" or "no" unless you are absolutely sure.
+---
+
+Follow the following format. 
+
+Question: ${the question to be answered}
+Tools: ${descriptions of available tools}
+Context: ${information relevant to the question}
+Answer: ${yes / no / need more information}
+---
 """
+        + f"""
+
+Question: Has the current goal been achieved? 
+Tools: get_coordinate(object_name: str) -> Tuple[int, int], is_next_to(coord1: Tuple[int, int], coord2: Tuple[int, int]) -> bool
+Context: {describe_environment(env, obs)} {additional_context}
+Answer: 
+"""
+    )
     print(f"\n****EVALUATION AGENT PROMPT****\n{prompt}\n")
     response = openai_call(prompt)
     print(f"\n****EVALUATION AGENT RESPONSE****\n{response}\n")
+
+    if response.lower() == "need more information":
+        tool_choice = tool_choice_agent(env, obs, current_goal, additional_context)
+        # TODO: Parse tool choice, run the tool, and add the result to the context.
+        additional_context += ""
+        return evaluation_agent(env, obs, current_goal, additional_context)
+    elif response.lower() in ("yes", "no"):
+        return response.strip().lower()
+    else:
+        raise ValueError(f"Invalid response: {response}")
+
+
+# Tools
+def get_coordinate(object_name: str) -> Tuple[int, int]:
+    """Get the coordinate of an object"""
+    pass
+
+
+def is_next_to(coord1: Tuple[int, int], coord2: Tuple[int, int]) -> bool:
+    """Check if two coordinates are next to each other"""
+    pass
+
+
+def tool_choice_agent(env, obs, current_goal: str, additional_context: str) -> str:
+    prompt = (
+        """
+Identify the appropriate tool that will help answer a complex question. 
+
+---
+Example of writing 'next tool to use'. 
+
+Next tool to use: get_coordinate(obs, "green key")
+Next tool to use: is_next_to((0,2), (3,4))
+---
+
+Follow the following format. 
+
+Question: ${the question to be answered}
+Tools: ${descriptions of available tools}
+Context: ${information relevant to the question}
+Rationale: Let's think step by step. To answer this question, we first need to find out ${the missing information}
+Next tool to use: ${the name and invocation arguments of the tool}
+---
+"""
+        + f"""
+Question: Has the current goal been achieved?
+Tools: get_coordinate(object_name: str) -> Tuple[int, int], is_next_to(coord1: Tuple[int, int], coord2: Tuple[int, int]) -> bool,
+Context: {describe_environment(env, obs)} {additional_context}
+Rationale: Let's think step by step. To answer this question, we first need to find out
+"""
+    )
+    print(f"\n****TOOL CHOICE AGENT PROMPT****\n{prompt}\n")
+    response = openai_call(prompt)
+    print(f"\n****TOOL CHOICE AGENT RESPONSE****\n{response}\n")
     return response.strip().lower()
 
 
