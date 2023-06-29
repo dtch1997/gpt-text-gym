@@ -10,25 +10,62 @@
 absl-py==1.4.0
     # via ml-collections
 aiohttp==3.8.4
-    # via openai
+    # via
+    #   datasets
+    #   fsspec
+    #   openai
 aiosignal==1.3.1
     # via aiohttp
+anyio==3.7.0
+    # via jupyter-server
+argon2-cffi==21.3.0
+    # via
+    #   jupyter-server
+    #   nbclassic
+    #   notebook
+argon2-cffi-bindings==21.2.0
+    # via argon2-cffi
+arrow==1.2.3
+    # via isoduration
+asttokens==2.2.1
+    # via stack-data
 async-timeout==4.0.2
     # via aiohttp
 attrs==23.1.0
-    # via aiohttp
+    # via
+    #   aiohttp
+    #   jsonschema
+backcall==0.2.0
+    # via ipython
+backoff==2.2.1
+    # via dsp-ml
+beautifulsoup4==4.12.2
+    # via nbconvert
+bleach==6.0.0
+    # via nbconvert
 blessings==1.7
     # via colour-runner
+blis==0.7.9
+    # via thinc
 cachetools==5.3.1
     # via tox
+catalogue==2.0.8
+    # via
+    #   spacy
+    #   srsly
+    #   thinc
 certifi==2023.5.7
     # via requests
+cffi==1.15.1
+    # via argon2-cffi-bindings
 chardet==5.1.0
     # via tox
 charset-normalizer==3.1.0
     # via
     #   aiohttp
     #   requests
+click==8.1.3
+    # via typer
 cloudpickle==2.2.1
     # via gymnasium
 codecov==2.1.13
@@ -39,102 +76,479 @@ coloredlogs==15.0.1
     # via rootpath
 colour-runner==0.1.1
     # via rootpath
+comm==0.1.3
+    # via ipykernel
+confection==0.1.0
+    # via thinc
 contextlib2==21.6.0
     # via ml-collections
 coverage==7.2.7
     # via
     #   codecov
     #   rootpath
+cymem==2.0.7
+    # via
+    #   preshed
+    #   spacy
+    #   thinc
+datasets==2.13.1
+    # via dsp-ml
+debugpy==1.6.7
+    # via ipykernel
+decorator==5.1.1
+    # via ipython
 deepdiff==6.3.0
     # via rootpath
+defusedxml==0.7.1
+    # via nbconvert
+dill==0.3.6
+    # via
+    #   datasets
+    #   multiprocess
 distlib==0.3.6
     # via virtualenv
+dsp-ml==0.1.5
+    # via -r requirements/base.in
+exceptiongroup==1.1.1
+    # via anyio
+executing==1.2.0
+    # via stack-data
 farama-notifications==0.0.4
     # via gymnasium
+fastjsonschema==2.17.1
+    # via nbformat
 filelock==3.12.2
     # via
+    #   huggingface-hub
     #   tox
     #   virtualenv
+fqdn==1.5.1
+    # via jsonschema
 frozenlist==1.3.3
     # via
     #   aiohttp
     #   aiosignal
+fsspec[http]==2023.6.0
+    # via
+    #   datasets
+    #   huggingface-hub
 gymnasium==0.28.1
     # via minigrid
+huggingface-hub==0.15.1
+    # via datasets
 humanfriendly==10.0
     # via coloredlogs
 idna==3.4
     # via
+    #   anyio
+    #   jsonschema
     #   requests
     #   yarl
+ipykernel==6.23.3
+    # via
+    #   ipywidgets
+    #   jupyter
+    #   jupyter-console
+    #   nbclassic
+    #   notebook
+    #   qtconsole
+ipython==8.14.0
+    # via
+    #   ipykernel
+    #   ipywidgets
+    #   jupyter-console
+ipython-genutils==0.2.0
+    # via
+    #   nbclassic
+    #   notebook
+    #   qtconsole
+ipywidgets==8.0.6
+    # via jupyter
+isoduration==20.11.0
+    # via jsonschema
 jax-jumpy==1.0.0
     # via gymnasium
+jedi==0.18.2
+    # via ipython
+jinja2==3.1.2
+    # via
+    #   jupyter-server
+    #   nbclassic
+    #   nbconvert
+    #   notebook
+    #   spacy
+joblib==1.3.0
+    # via dsp-ml
+jsonpointer==2.4
+    # via jsonschema
+jsonschema[format-nongpl]==4.17.3
+    # via
+    #   jupyter-events
+    #   nbformat
+jupyter==1.0.0
+    # via dsp-ml
+jupyter-client==8.3.0
+    # via
+    #   ipykernel
+    #   jupyter-console
+    #   jupyter-server
+    #   nbclassic
+    #   nbclient
+    #   notebook
+    #   qtconsole
+jupyter-console==6.6.3
+    # via jupyter
+jupyter-core==5.3.1
+    # via
+    #   ipykernel
+    #   jupyter-client
+    #   jupyter-console
+    #   jupyter-server
+    #   nbclassic
+    #   nbclient
+    #   nbconvert
+    #   nbformat
+    #   notebook
+    #   qtconsole
+jupyter-events==0.6.3
+    # via jupyter-server
+jupyter-server==2.7.0
+    # via
+    #   nbclassic
+    #   notebook-shim
+jupyter-server-terminals==0.4.4
+    # via jupyter-server
+jupyterlab-pygments==0.2.2
+    # via nbconvert
+jupyterlab-widgets==3.0.7
+    # via ipywidgets
+langcodes==3.3.0
+    # via spacy
+markupsafe==2.1.3
+    # via
+    #   jinja2
+    #   nbconvert
+matplotlib-inline==0.1.6
+    # via
+    #   ipykernel
+    #   ipython
 minigrid==2.3.0
     # via -r requirements/base.in
+mistune==3.0.1
+    # via nbconvert
 ml-collections==0.1.1
     # via -r requirements/base.in
 multidict==6.0.4
     # via
     #   aiohttp
     #   yarl
+multiprocess==0.70.14
+    # via datasets
+murmurhash==1.0.9
+    # via
+    #   preshed
+    #   spacy
+    #   thinc
+nbclassic==1.0.0
+    # via notebook
+nbclient==0.8.0
+    # via nbconvert
+nbconvert==7.6.0
+    # via
+    #   jupyter
+    #   jupyter-server
+    #   nbclassic
+    #   notebook
+nbformat==5.9.0
+    # via
+    #   jupyter-server
+    #   nbclassic
+    #   nbclient
+    #   nbconvert
+    #   notebook
+nest-asyncio==1.5.6
+    # via
+    #   ipykernel
+    #   nbclassic
+    #   notebook
+notebook==6.5.4
+    # via jupyter
+notebook-shim==0.2.3
+    # via nbclassic
 numpy==1.25.0
     # via
+    #   blis
+    #   datasets
     #   gymnasium
     #   jax-jumpy
     #   minigrid
+    #   pandas
+    #   pyarrow
+    #   spacy
+    #   thinc
 openai==0.27.8
-    # via -r requirements/base.in
+    # via
+    #   -r requirements/base.in
+    #   dsp-ml
 ordered-set==4.1.0
     # via deepdiff
+overrides==7.3.1
+    # via jupyter-server
 packaging==23.1
     # via
+    #   datasets
+    #   huggingface-hub
+    #   ipykernel
+    #   jupyter-server
+    #   nbconvert
     #   pyproject-api
+    #   qtconsole
+    #   qtpy
+    #   spacy
+    #   thinc
     #   tox
+pandas==2.0.3
+    # via
+    #   datasets
+    #   dsp-ml
+pandocfilters==1.5.0
+    # via nbconvert
+parso==0.8.3
+    # via jedi
+pathy==0.10.2
+    # via spacy
+pexpect==4.8.0
+    # via ipython
+pickleshare==0.7.5
+    # via ipython
 platformdirs==3.8.0
     # via
+    #   jupyter-core
     #   tox
     #   virtualenv
 pluggy==1.2.0
     # via tox
+preshed==3.0.8
+    # via
+    #   spacy
+    #   thinc
+prometheus-client==0.17.0
+    # via
+    #   jupyter-server
+    #   nbclassic
+    #   notebook
+prompt-toolkit==3.0.38
+    # via
+    #   ipython
+    #   jupyter-console
+psutil==5.9.5
+    # via ipykernel
+ptyprocess==0.7.0
+    # via
+    #   pexpect
+    #   terminado
+pure-eval==0.2.2
+    # via stack-data
+pyarrow==12.0.1
+    # via datasets
+pycparser==2.21
+    # via cffi
+pydantic==1.10.9
+    # via
+    #   confection
+    #   spacy
+    #   thinc
 pygame==2.5.0
     # via minigrid
 pygments==2.15.1
     # via
     #   colour-runner
+    #   ipython
+    #   jupyter-console
+    #   nbconvert
+    #   qtconsole
     #   rootpath
 pyproject-api==1.5.2
     # via tox
+pyrsistent==0.19.3
+    # via jsonschema
+python-dateutil==2.8.2
+    # via
+    #   arrow
+    #   jupyter-client
+    #   pandas
 python-dotenv==1.0.0
     # via -r requirements/base.in
+python-json-logger==2.0.7
+    # via jupyter-events
+pytz==2023.3
+    # via pandas
 pyyaml==6.0
-    # via ml-collections
+    # via
+    #   datasets
+    #   huggingface-hub
+    #   jupyter-events
+    #   ml-collections
+pyzmq==25.1.0
+    # via
+    #   ipykernel
+    #   jupyter-client
+    #   jupyter-console
+    #   jupyter-server
+    #   nbclassic
+    #   notebook
+    #   qtconsole
+qtconsole==5.4.3
+    # via jupyter
+qtpy==2.3.1
+    # via qtconsole
+regex==2023.6.3
+    # via dsp-ml
 requests==2.31.0
     # via
     #   -r requirements/base.in
     #   codecov
+    #   datasets
+    #   fsspec
+    #   huggingface-hub
     #   openai
+    #   spacy
+rfc3339-validator==0.1.4
+    # via
+    #   jsonschema
+    #   jupyter-events
+rfc3986-validator==0.1.1
+    # via
+    #   jsonschema
+    #   jupyter-events
 rootpath==0.1.1
     # via -r requirements/base.in
+send2trash==1.8.2
+    # via
+    #   jupyter-server
+    #   nbclassic
+    #   notebook
 six==1.16.0
     # via
+    #   asttokens
+    #   bleach
     #   blessings
     #   ml-collections
+    #   python-dateutil
+    #   rfc3339-validator
     #   rootpath
+smart-open==6.3.0
+    # via
+    #   pathy
+    #   spacy
+sniffio==1.3.0
+    # via anyio
+soupsieve==2.4.1
+    # via beautifulsoup4
+spacy==3.5.4
+    # via dsp-ml
+spacy-legacy==3.0.12
+    # via spacy
+spacy-loggers==1.0.4
+    # via spacy
+srsly==2.4.6
+    # via
+    #   confection
+    #   spacy
+    #   thinc
+stack-data==0.6.2
+    # via ipython
 termcolor==2.3.0
     # via rootpath
+terminado==0.17.1
+    # via
+    #   jupyter-server
+    #   jupyter-server-terminals
+    #   nbclassic
+    #   notebook
+thinc==8.1.10
+    # via spacy
+tinycss2==1.2.1
+    # via nbconvert
 tomli==2.0.1
     # via
     #   pyproject-api
     #   tox
+tornado==6.3.2
+    # via
+    #   ipykernel
+    #   jupyter-client
+    #   jupyter-server
+    #   nbclassic
+    #   notebook
+    #   terminado
 tox==4.6.3
     # via rootpath
 tqdm==4.65.0
-    # via openai
+    # via
+    #   datasets
+    #   dsp-ml
+    #   huggingface-hub
+    #   openai
+    #   spacy
+traitlets==5.9.0
+    # via
+    #   comm
+    #   ipykernel
+    #   ipython
+    #   ipywidgets
+    #   jupyter-client
+    #   jupyter-console
+    #   jupyter-core
+    #   jupyter-events
+    #   jupyter-server
+    #   matplotlib-inline
+    #   nbclassic
+    #   nbclient
+    #   nbconvert
+    #   nbformat
+    #   notebook
+    #   qtconsole
+typer==0.9.0
+    # via
+    #   pathy
+    #   spacy
 typing-extensions==4.6.3
-    # via gymnasium
+    # via
+    #   gymnasium
+    #   huggingface-hub
+    #   pydantic
+    #   typer
+tzdata==2023.3
+    # via pandas
+ujson==5.8.0
+    # via dsp-ml
+uri-template==1.3.0
+    # via jsonschema
 urllib3==2.0.3
     # via requests
 virtualenv==20.23.1
     # via tox
+wasabi==1.1.2
+    # via
+    #   spacy
+    #   thinc
+wcwidth==0.2.6
+    # via prompt-toolkit
+webcolors==1.13
+    # via jsonschema
+webencodings==0.5.1
+    # via
+    #   bleach
+    #   tinycss2
+websocket-client==1.6.1
+    # via jupyter-server
+widgetsnbextension==4.0.7
+    # via ipywidgets
+xxhash==3.2.0
+    # via datasets
 yarl==1.9.2
     # via aiohttp
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools
