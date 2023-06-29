@@ -6,7 +6,7 @@ import re
 import dotenv
 import sympy
 
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List, Tuple, Optional, Any
 
 from minigrid.core.constants import COLOR_NAMES
 from minigrid.core.grid import Grid
@@ -400,8 +400,7 @@ def evaluation_agent(env, obs, current_goal: str, additional_context: str = ""):
 Answer the question. 
 
 Rules:
-1. If you are unsure of the answer, say "need more information". 
-2. Do not say "yes" or "no" unless you are absolutely sure.
+1. If you know the answer, answer yes or no.
 ---
 
 Follow the following format. 
@@ -416,7 +415,7 @@ Answer: ${yes / no / need more information}
 
 Question: Has the current goal been achieved? 
 Tools: get_coordinate(object_name: str) -> Tuple[int, int], is_next_to(coord1: Tuple[int, int], coord2: Tuple[int, int]) -> bool
-Context: {describe_environment(env, obs)} {additional_context}
+Context: {describe_environment(env, obs)} {additional_context}. The overall goal is: {obs["mission"]}. The current goal is: {current_goal}
 Answer: 
 """
     )
@@ -424,10 +423,19 @@ Answer:
     response = openai_call(prompt)
     print(f"\n****EVALUATION AGENT RESPONSE****\n{response}\n")
 
+    # Define tools which require local variables
+    def get_coordinate(object_name: str) -> Tuple[int, int]:
+        return get_coordinate_of_object(obs, object_name)
+
     if response.lower() == "need more information":
-        tool_choice = tool_choice_agent(env, obs, current_goal, additional_context)
-        # TODO: Parse tool choice, run the tool, and add the result to the context.
-        additional_context += ""
+        tool_choice_response = tool_choice_agent(
+            env, obs, current_goal, additional_context
+        )
+        tool_choice = re.search(r"next tool to use: (.*)", tool_choice_response).group(
+            1
+        )
+        tool_result = eval(tool_choice)
+        additional_context += f"The result of {tool_choice} is {tool_result}."
         return evaluation_agent(env, obs, current_goal, additional_context)
     elif response.lower() in ("yes", "no"):
         return response.strip().lower()
@@ -436,14 +444,16 @@ Answer:
 
 
 # Tools
-def get_coordinate(object_name: str) -> Tuple[int, int]:
+def get_coordinate_of_object(obs: Dict[str, Any], object_name: str) -> Tuple[int, int]:
     """Get the coordinate of an object"""
-    pass
+    return (0, 0)
 
 
 def is_next_to(coord1: Tuple[int, int], coord2: Tuple[int, int]) -> bool:
     """Check if two coordinates are next to each other"""
-    pass
+    x1, y1 = coord1
+    x2, y2 = coord2
+    return abs(x1 - x2) <= 1 and abs(y1 - y2) <= 1
 
 
 def tool_choice_agent(env, obs, current_goal: str, additional_context: str) -> str:
@@ -451,6 +461,8 @@ def tool_choice_agent(env, obs, current_goal: str, additional_context: str) -> s
         """
 Identify the appropriate tool that will help answer a complex question. 
 
+Rules: 
+1. Choose exactly one tool to use.
 ---
 Example of writing 'next tool to use'. 
 
@@ -470,7 +482,7 @@ Next tool to use: ${the name and invocation arguments of the tool}
         + f"""
 Question: Has the current goal been achieved?
 Tools: get_coordinate(object_name: str) -> Tuple[int, int], is_next_to(coord1: Tuple[int, int], coord2: Tuple[int, int]) -> bool,
-Context: {describe_environment(env, obs)} {additional_context}
+Context: {describe_environment(env, obs)} {additional_context}. The overall goal is: {obs["mission"]}. The current goal is: {current_goal}. 
 Rationale: Let's think step by step. To answer this question, we first need to find out
 """
     )
