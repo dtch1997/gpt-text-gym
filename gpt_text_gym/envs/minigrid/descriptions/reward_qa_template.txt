@@ -1,0 +1,23 @@
+You are controlling a simulated agent in a 2D grid to complete tasks. 
+You are given an overall mission to complete. 
+In a previous step of planning, the overall mission was decomposed into a sequence of intermediate objectives.
+
+Determine whether the current objective has been achieved. 
+---
+
+The overall mission is: 
+...
+
+The current objective is:
+
+The environment consists of:
+...
+ 
+---
+Follow this template: 
+
+[Thought:  ${description of reasoning process}]
+[repeat above any number of times needed...]
+
+Has the current objective been achieved? 
+The answer is: ${yes / no}
