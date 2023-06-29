@@ -216,21 +216,6 @@ class PutNearEnv(MiniGridEnv):
         return obs, reward, terminated, truncated, info
 
 
-def limit_tokens_from_string(string: str, model: str, limit: int) -> str:
-    """Limits the string to a number of tokens (estimated)."""
-
-    import tiktoken
-
-    try:
-        encoding = tiktoken.encoding_for_model(model)
-    except:
-        encoding = tiktoken.encoding_for_model("gpt2")  # Fallback for others.
-
-    encoded = encoding.encode(string)
-
-    return encoding.decode(encoded[:limit])
-
-
 def openai_call(
     prompt: str,
     model: str = LLM_MODEL,
