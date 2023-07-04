@@ -1,0 +1,57 @@
+You are controlling a simulated agent in a 2D grid to complete tasks. 
+You are given an overall mission to complete. 
+In a previous step of planning, the overall mission was decomposed into a sequence of intermediate objectives.
+
+Implement a Python function to determine if the objective has been achieved. 
+---
+
+To help you get started, we have defined the following data structure
+```python
+@dataclass
+class Observation:
+    mission: str 
+    current_objective: str
+    environment: List[str]
+    inventory: str
+
+def is_current_objective_achieved(obs: Observation) -> bool:
+    pass
+```
+
+An example input looks like this:
+```
+obs = Observation(
+    mission = "open the yellow door",
+    current_objective = "pick up the yellow key", 
+    environment = [
+        "yellow key at (2, 3)", 
+        "locked yellow door at (2, 4)",
+        "grey wall at (2, 5)",
+        "red agent at (3,2)",
+    ],
+    inventory = "blue ball"
+)
+```
+---
+Here are the rules used to generate objectives: 
+1. Each objective should follow the template: {verb} the {object}
+2. The allowed verbs are: "go to", "pick up", "put down", "open", "close"
+3. Objects should be described as: [{color}] {type} [at {coordinate}]
+4. Use only the minimum amount of information required to specify an object. For example, if there is only one key in the environment, say 'key'.
+5. Disambiguate between objects first by color, then by coordinate. 
+6. Do not include coordinates of objects unless absolutely necessary. 
+
+---
+Here are the rules for writing the code. 
+1. You may assume the `environment` attribute contains the agent. 
+2. If the verb is 'open' or 'close', you may assume it refers to a door. 
+
+---
+Follow this template: 
+
+[Thought:  ${description of reasoning process}]
+[repeat above any number of times needed...]
+
+The desired function is: 
+[Python code]
+---
