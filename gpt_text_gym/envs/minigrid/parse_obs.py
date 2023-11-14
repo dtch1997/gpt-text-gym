@@ -4,8 +4,22 @@ import minigrid
 import numpy as np
 import gymnasium as gym
 
+from dataclasses import dataclass
+from typing import List
 from minigrid.minigrid_env import MiniGridEnv
 from minigrid.core.constants import IDX_TO_OBJECT, IDX_TO_COLOR
+
+
+@dataclass
+class Observation:
+    mission: str
+    current_objective: str
+    environment: List[str]
+    inventory: str
+
+
+def is_current_objective_achieved(obs: Observation) -> bool:
+    pass
 
 
 def get_objects(img_obs: np.ndarray):
